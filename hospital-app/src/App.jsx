@@ -2,18 +2,21 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Signup from './Signup'
 import Login from './Login';
-// import AddPet from './AddPet';
+
 import Appbar from './Appbar';
 import Hospitals from './Hosptials';
 import Doctors from './Doctors';
-import Patients from './Patients'
+import Patients from './Patients';
+import AddDoctor from './AddDoctor';
+import AddHospital from './AddHospital';
+import AddPatients from './AddPatients';
 // import Pet from './Pet';
 // users
-import USignup from './users/USignup';
-import USignin from './users/USignin';
-import UPets from './users/UPets';
-import UPet from './users/UPet';
-import UAppbar from './users/UAppbar';
+// import USignup from './users/USignup';
+// import USignin from './users/USignin';
+// import UPets from './users/UPets';
+// import UPet from './users/UPet';
+// import UAppbar from './users/UAppbar';
 import './App.css'
 
 
@@ -60,21 +63,27 @@ function App() {
     }} >
       <Router>
    
-      {userType==="Admin"?<Appbar userName={userName} setUserName={setUserName}></Appbar>:<UAppbar userName={userName} setUserName={setUserName}></UAppbar>}
+      {/* { */}
+        {/* userType==="Admin"? */}
+      <Appbar userName={userName} setUserName={setUserName}></Appbar>
+      {/* :<UAppbar userName={userName} setUserName={setUserName}></UAppbar> */}
+      {/* } */}
         <Routes>
         
         <Route path="/hospitals" element={<Hospitals />} /> 
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/patients" element={<Patients />} />
-        {/* <Route path="/hospital/:hospitalId" element={<Hospital />} /> 
-          <Route path="/addHospital" element={<AddHospital />} /> */}
+         {/* <Route path="/hospital/:hospitalId" element={<Hospital />} />   */}
+          <Route path="/addHospital" element={<AddHospital />} /> 
+        <Route path="/addDoctor" element={<AddDoctor />} /> 
+        <Route path="/addPatient" element={<AddPatients />} /> 
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           {/* Users */}
-          <Route path="/userlogin" element={<USignin />} />
+          {/* <Route path="/userlogin" element={<USignin />} />
           <Route path="/usersignup" element={<USignup />} />
           <Route path="/upets" element={<UPets />} />
-          <Route path="/upet/:petId" element={<UPet />} />  
+          <Route path="/upet/:petId" element={<UPet />} />   */}
 
           {/* <Route path="/userSignup" element={<UserSignup />} /> */}
         </Routes>

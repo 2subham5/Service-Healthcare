@@ -38,7 +38,7 @@ function AddHospital() {
                         setAge(e.target.value)
                     }}
                     fullWidth={true}
-                    label="Image"
+                    label="Age"
                     variant="outlined"
                 />
                 <TextField
@@ -46,7 +46,7 @@ function AddHospital() {
                         setBloodGrp(e.target.value)
                     }}
                     fullWidth={true}
-                    label="Image"
+                    label="Blood Group"
                     variant="outlined"
                 />
                 <TextField
@@ -54,7 +54,7 @@ function AddHospital() {
                         setGuardian(e.target.value)
                     }}
                     fullWidth={true}
-                    label="Image"
+                    label="Guardian"
                     variant="outlined"
                 />
                 <TextField
@@ -62,7 +62,7 @@ function AddHospital() {
                         setGender(e.target.value)
                     }}
                     fullWidth={true}
-                    label="Image"
+                    label="Gender"
                     variant="outlined"
                 />
                 <TextField
@@ -70,7 +70,7 @@ function AddHospital() {
                         setpatientCurrentCondition(e.target.value)
                     }}
                     fullWidth={true}
-                    label="Image"
+                    label="Condition"
                     variant="outlined"
                 />
                 <TextField
@@ -78,7 +78,7 @@ function AddHospital() {
                         setpatientPastHistory(e.target.value)
                     }}
                     fullWidth={true}
-                    label="Image"
+                    label="Past History"
                     variant="outlined"
                 />
                 <Button size={"large "} variant="contained"

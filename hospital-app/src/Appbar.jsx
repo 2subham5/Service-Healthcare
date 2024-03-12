@@ -2,7 +2,7 @@ import { Button, Typography } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 
-function Appbar({userName,setUserName}) {
+function Appbar({ userName, setUserName }) {
     const navigate = useNavigate();
     // const [userName, setUserName] = useState(null);
 
@@ -36,7 +36,7 @@ function Appbar({userName,setUserName}) {
                         localStorage.setItem("token", null);
 
                         setUserName(null)
-                        window.location="/login"
+                        window.location = "/login"
                     }}>
                         Logout
                     </Button>
@@ -54,15 +54,17 @@ function Appbar({userName,setUserName}) {
                 </div>
                 <div style={{ display: "flex" }}>
                     <div style={{ marginRight: 10 }}>
-                        {/* <Button variant={"contained"} onClick={() => navigate("/signup")}>
+                        <Button variant={"contained"} onClick={() => navigate("/signup")}>
                             Signup
-                        </Button> */}
+                        </Button>
                     </div>
                     <div>
                         <Button variant={"contained"} onClick={() => navigate("/login")}>
                             Login
                         </Button>
+
                     </div>
+
                 </div>
             </div>
         );

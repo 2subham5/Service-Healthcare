@@ -26,7 +26,7 @@ function AddDoctor() {
                         setDegree(e.target.value)
                     }}
                     fullWidth={true}
-                    label="Address"
+                    label="Degree"
                     variant="outlined"
                 />
                 <TextField
@@ -42,7 +42,7 @@ function AddDoctor() {
                         setReg(e.target.value)
                     }}
                     fullWidth={true}
-                    label="Price"
+                    label="Registration No."
                     variant="outlined"
                 />
                 <TextField
@@ -50,7 +50,7 @@ function AddDoctor() {
                         setCategory(e.target.value)
                     }}
                     fullWidth={true}
-                    label="Price"
+                    label="Specialization"
                     variant="outlined"
                 />  
                 <Button size={"large "} variant="contained"
