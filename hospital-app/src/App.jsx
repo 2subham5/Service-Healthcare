@@ -10,7 +10,8 @@ import Patients from './Patients';
 import AddDoctor from './AddDoctor';
 import AddHospital from './AddHospital';
 import AddPatients from './AddPatients';
-// import Pet from './Pet';
+import Hospital from './Hospital';
+import Doctor from './Doctor';
 // users
 // import USignup from './users/USignup';
 // import USignin from './users/USignin';
@@ -73,7 +74,8 @@ function App() {
         <Route path="/hospitals" element={<Hospitals />} /> 
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/patients" element={<Patients />} />
-         {/* <Route path="/hospital/:hospitalId" element={<Hospital />} />   */}
+         <Route path="/doctor/:docId" element={<Doctor />} />  
+         <Route path="/hospital/:hospitalId" element={<Hospital />} />
           <Route path="/addHospital" element={<AddHospital />} /> 
         <Route path="/addDoctor" element={<AddDoctor />} /> 
         <Route path="/addPatient" element={<AddPatients />} /> 

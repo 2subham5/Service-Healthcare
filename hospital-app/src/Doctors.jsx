@@ -48,7 +48,7 @@ export function Course (props){
  <img style={{width:300, height:200}} src = {props.course.imageLink}></img> */}
  <div><Button onClick={()=>{
     // _id is the convention used for id's
-    navigate("/pet/" + props.course._id);
+    navigate("/doctor/" + props.course._id);
  }}>
     Edit
  </Button></div>

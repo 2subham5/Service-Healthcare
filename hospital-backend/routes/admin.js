@@ -141,7 +141,7 @@ router.get('/doctors', authenticateJwt, async (req, res) => {
 });
 router.get("/doctor/:docId", authenticateJwt, async(req,res)=>{
     try{
-    const docId = req.params.petId;
+    const docId = req.params.docId;
     const doctor = await Doctor.findById(docId);
     console.log(doctor);
     res.json({doctor})
