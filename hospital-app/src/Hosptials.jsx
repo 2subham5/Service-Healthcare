@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import Card from '@mui/material/Card';
 import { Button, Typography } from "@mui/material";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 function Hospitals() {
+ 
+ 
     const [courses, setCourses] = useState([]);
     useEffect(() => {
     //     fetch("http://localhost:3000/admin/courses", {
@@ -24,6 +27,7 @@ function Hospitals() {
             setCourses(res.data);
         })
     }, []);
+   
     return <div style={{display:"flex"}}>
        HOSPITALS
         {/* courses is an object so need to stringify */}
@@ -36,6 +40,10 @@ function Hospitals() {
 
 export function Course (props){
     const navigate = useNavigate();
+    const { hospitalId } = useParams();
+    const handleViewDoctors = () => {
+        navigate("/hospital/" + props.course._id + "/doctors"); // Navigate to Doctors component with hospital ID
+      };
     return <Card style={{
         border: "2px solid black",
         margin: 10,
@@ -44,14 +52,19 @@ export function Course (props){
     {/* title description all these from backend */}
  <Typography textAlign={"centre"} variant="h4">{props.course.name}</Typography>
  <Typography textAlign={"centre"} variant="h4">{props.course.address}</Typography>
- {/* <Typography textAlign={"centre"} variant="h4">{props.course.price}</Typography>
- <img style={{width:300, height:200}} src = {props.course.imageLink}></img> */}
- <div><Button onClick={()=>{
+
+ <div>
+ <Button onClick={()=>{
     // _id is the convention used for id's
     navigate("/hospital/" + props.course._id);
  }}>
     Edit
- </Button></div>
+ </Button>
+ </div>
+ <div>
+ <Button onClick={handleViewDoctors}>View Doctors</Button> {/* Button to view doctors */}
+
+ </div>
     </Card>
     }
 

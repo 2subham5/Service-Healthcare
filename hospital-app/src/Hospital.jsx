@@ -5,9 +5,10 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useParams } from "react-router-dom";
 import { Typography } from "@mui/material";
-
-function Pet() {
-  const [pet, setPet] = useState(null);
+import { useNavigate } from "react-router-dom";
+function Hospital() {
+  const navigate = useNavigate();
+  const [hospital, setHospital] = useState(null);
   
   const { hospitalId } = useParams(); // Make sure this matches the route parameter name in your backend, i.e., petId
 
@@ -20,20 +21,20 @@ function Pet() {
     })
       .then((res) => {
         
-        setPet(res.data.hospital); //  pet data is returned as res.data.pet
+        setHospital(res.data.hospital); //  pet data is returned as res.data.pet
       })
       .catch((error) => {
         console.error("Error fetching hospitals:", error);
       });
   }, [hospitalId]);
 
-  if (!pet) {
+  if (!hospital) {
     return <Typography variant="h4">Loading...</Typography>;
   }
 
   return (
     <div style={{display:"flex"}}>
-    PET
+    HOSPITAL
      {/* courses is an object so need to stringify */}
      {/* {JSON.stringify(pet)}  */}
      {/* {pet.map((petItem)=>{
@@ -45,10 +46,14 @@ function Pet() {
         width: 300
     }}>
     {/* title description all these from backend */}
- <Typography textAlign={"centre"} variant="h4">{pet.name}</Typography>
- <Typography textAlign={"centre"} variant="h4">{pet.address}</Typography>
+ <Typography textAlign={"centre"} variant="h4">{hospital.name}</Typography>
+ <Typography textAlign={"centre"} variant="h4">{hospital.address}</Typography>
 
- {/* <UpdateCard pet={pet}/> */}
+                
+<div>
+<UpdateCard hospital={hospital}/>
+</div>
+
     </Card>
      </div>
    
@@ -57,76 +62,64 @@ function Pet() {
 
 // update card
 
-// function UpdateCard({ pet, onUpdate }) {
-//   const { petId } = useParams();
+function UpdateCard({ hospital, onUpdate }) {
+  const { hospitalId } = useParams();
 
-//   const [updatedPet, setUpdatedPet] = useState({
-//     title: pet.title,
-//     description: pet.description,
-//     imageLink: pet.imageLink,
-//     price: pet.price,
-//   });
+  const [updatedHospital, setUpdatedHospital] = useState({
+    name: hospital.name,
+    address: hospital.address
+  });
 
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setUpdatedPet((prevPet) => ({
-//       // to put the earlier props 
-//       ...prevPet,
-//       //changed one
-//       [name]: value,
-//     }));
-//   };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedHospital((prevHospital) => ({
+      ...prevHospital,
+      [name]: value,
+    }));
+  };
 
-//   const handleSubmit = () => {
-//     axios.put(`http://localhost:3000/admin/pet/${petId}`, updatedPet, {
-//       headers: {
-//         Authorization: "Bearer " + localStorage.getItem("token"),
-//       },
-//     })
-//       .then((res) => {
-//         onUpdate(res.data.pet);
-//       })
-//       .catch((error) => {
-//         console.error("Error updating pet:", error);
-//       });
-//   };
+  const handleSubmit = () => {
+    axios.put(`http://localhost:3000/admin/hospital/${hospitalId}`, updatedHospital, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    
+      .then((res) => {
+        onUpdate(res.data.hospital);
+        alert("Hospital updated successfully!");
+      })
+     
+      .catch((error) => {
+        console.error("Error updating hospital:", error);
+      });
+  };
 
-//   return (
-//     <Card style={{
-//       border: "2px solid black",
-//       margin: 10,
-//       width: 300
-//     }}>
-//       <TextField
-//         name="title"
-//         label="Title"
-//         value={updatedPet.title}
-//         onChange={handleChange}
-//       />
-//       <TextField
-//         name="description"
-//         label="Description"
-//         value={updatedPet.description}
-//         onChange={handleChange}
-//       />
-//             <TextField
-//         name="price"
-//         label="Price"
-//         value={updatedPet.price}
-//         onChange={handleChange}
-//       />
-//       <TextField
-//         name="imageLink"
-//         label="Image Link"
-//         value={updatedPet.imageLink}
-//         onChange={handleChange}
-//       />
-//       <Button onClick={handleSubmit}>Update</Button>
-//     </Card>
-//   );
-// }
+  return (
+    <Card style={{
+      border: "2px solid black",
+      margin: 10,
+      width: 300
+    }}>
+      <TextField
+        name="name"
+        label="Hospital Name"
+        value={updatedHospital.name}
+        onChange={handleChange}
+      />
+      <TextField
+        name="address"
+        label="Address"
+        value={updatedHospital.address}
+        onChange={handleChange}
+      />
+    
+      <Button onClick={handleSubmit}>Update</Button>
+    </Card>
+  );
+}
 
 
 
 
-export default Pet;
+export default Hospital;

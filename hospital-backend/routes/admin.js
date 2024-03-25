@@ -143,7 +143,7 @@ router.get("/doctor/:docId", authenticateJwt, async(req,res)=>{
     try{
     const docId = req.params.docId;
     const doctor = await Doctor.findById(docId);
-    console.log(doctor);
+    // console.log(doctor);
     res.json({doctor})
     }
     catch(error){
@@ -155,7 +155,7 @@ router.get("/hospital/:hospitalId", authenticateJwt, async(req,res)=>{
     try{
     const hospitalId = req.params.hospitalId;
     const hospital = await Hospital.findById(hospitalId);
-    console.log(hospital);
+    // console.log(hospital);
     res.json({hospital})
     }
     catch(error){
@@ -167,7 +167,7 @@ router.get("/patient/:PatientId", authenticateJwt, async(req,res)=>{
     try{
     const patientId = req.params.patientId;
     const patient = await Patient.findById(patientId);
-    console.log(patient);
+    // console.log(patient);
     res.json({patient})
     }
     catch(error){
@@ -219,7 +219,7 @@ router.put('/doctor/:doctorId', authenticateJwt, async (req, res) => {
     }
 });
 // to add a particular doctor in a hospital
-router.put('/hospital/:hospitalId/add-doctor', authenticateJwt, async (req, res) => {
+router.put('/hospital/:hospitalId/adddoctor', authenticateJwt, async (req, res) => {
     try {
         const hospital = await Hospital.findById(req.params.hospitalId);
         if (!hospital) {

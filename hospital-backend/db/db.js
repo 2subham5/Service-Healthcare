@@ -84,8 +84,7 @@ const patientSchema = new mongoose.Schema({
         required: true
           },
           imgLink :{
-            type: String,
-            
+            type: String,   
         },
           purchased: [{
             type: mongoose.Schema.Types.ObjectId, ref: 'Patient'

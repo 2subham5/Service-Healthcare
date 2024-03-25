@@ -34,10 +34,12 @@ function Doctor() {
     <div style={{ display: "flex", justifyContent: "center" }}>
       <Card style={{ border: "2px solid black", margin: 10, width: 300 }}>
         <Typography variant="h4">Doctor Details</Typography>
+        <img style={{width:300, height:200}} src = {doctor.imgLink}></img>
         <Typography variant="h6">Name: {doctor.doctorName}</Typography>
         <Typography variant="h6">Degree: {doctor.degree}</Typography>
         <Typography variant="h6">Registration Number: {doctor.reg}</Typography>
         <Typography variant="h6">Category: {doctor.category}</Typography>
+        <Typography variant="h6">Patients: {doctor.purchased}</Typography>
       </Card>
       <div>
       <UpdateCard doctor={doctor}/>
@@ -60,6 +62,7 @@ function UpdateCard({ doctor, onUpdate }) {
       degree: doctor.degree,
       reg: doctor.reg,
       category: doctor.category,
+      imgLink: doctor.imgLink
     });
   
     const handleChange = (e) => {
@@ -115,6 +118,12 @@ function UpdateCard({ doctor, onUpdate }) {
           name="category"
           label="Category"
           value={updatedDoc.category}
+          onChange={handleChange}
+        />
+         <TextField
+          name="img"
+          label="Image Link"
+          value={updatedDoc.imgLink}
           onChange={handleChange}
         />
         <Button onClick={handleSubmit}>Update</Button>
