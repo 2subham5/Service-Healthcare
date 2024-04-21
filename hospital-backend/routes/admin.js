@@ -2,13 +2,13 @@ const express = require('express');
 const {  Admin, Doctor, Hospital, Patient  } = require('../db/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { SECRET } = require("../middleware/auth");
-const { authenticateJwt } = require("../middleware/auth"); // Importing authenticateJwt middleware
+const { adminSecret } = require("../middleware/auth");
+const { authenticateAdminJwt } = require("../middleware/auth"); // Importing authenticateJwt middleware
 
 const router = express.Router();
 
 
-router.get('/me', authenticateJwt, async (req, res) => {
+router.get('/me', authenticateAdminJwt, async (req, res) => {
     try {
         console.log(req);
         if (!req.user) {
@@ -45,7 +45,7 @@ router.post('/signup', async(req, res) => {
         const hashedPassword = await bcrypt.hash(password,10);
         const newAdmin = new Admin({ name,username, password:hashedPassword });
         await newAdmin.save();
-        const token = jwt.sign({ username, role: 'admin' }, SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ username, role: 'admin' }, adminSecret, { expiresIn: '1h' });
         res.json({ message: "Admin created", token });
     }
 });
@@ -56,7 +56,7 @@ router.post('/login', async(req, res) => {
     if (existingUser) {
         const passwordMatch = await bcrypt.compare(password, existingUser.password);
         if (passwordMatch) {
-            const token = jwt.sign({ username, role: 'admin' }, SECRET, { expiresIn: '1h' });
+            const token = jwt.sign({ username, role: 'admin' },adminSecret, { expiresIn: '1h' });
             res.json({ message: "Logged in", token });
         } else {
             res.status(403).json({ message: "Authentication failed" });
@@ -67,7 +67,7 @@ router.post('/login', async(req, res) => {
 });
 
 //to post  available doctor
-router.post('/doctor', authenticateJwt, async(req, res) => {
+router.post('/doctor', authenticateAdminJwt, async(req, res) => {
 try{
     const doctor = new Doctor(req.body);
     await doctor.save();
@@ -81,7 +81,7 @@ catch(error){
     
 });
 // to post hospital
-router.post('/hospital', authenticateJwt, async(req, res) => {
+router.post('/hospital', authenticateAdminJwt, async(req, res) => {
     try{
         const hospital = new Hospital(req.body);
         await hospital.save();
@@ -95,7 +95,7 @@ router.post('/hospital', authenticateJwt, async(req, res) => {
         
     });
     // to post patient
-    router.post('/patient', authenticateJwt, async(req, res) => {
+    router.post('/patient', authenticateAdminJwt, async(req, res) => {
         try{
             const patient = new Patient(req.body);
             await patient.save();
@@ -109,7 +109,7 @@ router.post('/hospital', authenticateJwt, async(req, res) => {
             
         });
 // to view 
-router.get('/hospitals', authenticateJwt, async (req, res) => {
+router.get('/hospitals', authenticateAdminJwt, async (req, res) => {
     try {
         // At this point, if the request has reached here, it means authentication was successful
         const hospitals = await Hospital.find({});
@@ -119,7 +119,7 @@ router.get('/hospitals', authenticateJwt, async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
-router.get('/patients', authenticateJwt, async (req, res) => {
+router.get('/patients', authenticateAdminJwt, async (req, res) => {
     try {
         // At this point, if the request has reached here, it means authentication was successful
         const patients = await Patient.find({});
@@ -129,7 +129,7 @@ router.get('/patients', authenticateJwt, async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
-router.get('/doctors', authenticateJwt, async (req, res) => {
+router.get('/doctors', authenticateAdminJwt, async (req, res) => {
     try {
         // At this point, if the request has reached here, it means authentication was successful
         const doctors = await Doctor.find({});
@@ -139,7 +139,7 @@ router.get('/doctors', authenticateJwt, async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
-router.get("/doctor/:docId", authenticateJwt, async(req,res)=>{
+router.get("/doctor/:docId", authenticateAdminJwt, async(req,res)=>{
     try{
     const docId = req.params.docId;
     const doctor = await Doctor.findById(docId);
@@ -151,7 +151,7 @@ router.get("/doctor/:docId", authenticateJwt, async(req,res)=>{
         res.status(500).json({message:"failed"})
     }
 })
-router.get("/hospital/:hospitalId", authenticateJwt, async(req,res)=>{
+router.get("/hospital/:hospitalId", authenticateAdminJwt, async(req,res)=>{
     try{
     const hospitalId = req.params.hospitalId;
     const hospital = await Hospital.findById(hospitalId);
@@ -163,7 +163,7 @@ router.get("/hospital/:hospitalId", authenticateJwt, async(req,res)=>{
         res.status(500).json({message:"failed"})
     }
 })
-router.get("/patient/:PatientId", authenticateJwt, async(req,res)=>{
+router.get("/patient/:PatientId", authenticateAdminJwt, async(req,res)=>{
     try{
     const patientId = req.params.patientId;
     const patient = await Patient.findById(patientId);
@@ -176,7 +176,7 @@ router.get("/patient/:PatientId", authenticateJwt, async(req,res)=>{
     }
 })
 // update routes
-router.put('/hospital/:hospitalId', authenticateJwt, async (req, res) => {
+router.put('/hospital/:hospitalId', authenticateAdminJwt, async (req, res) => {
     try {
         const hospital = await Hospital.findByIdAndUpdate(req.params.hospitalId, req.body, { new: true });
         if (hospital) {
@@ -191,7 +191,7 @@ router.put('/hospital/:hospitalId', authenticateJwt, async (req, res) => {
 });
 
 // patient
-router.put('/patient/:patientId', authenticateJwt, async (req, res) => {
+router.put('/patient/:patientId', authenticateAdminJwt, async (req, res) => {
     try {
         const patient = await Patient.findByIdAndUpdate(req.params.patientId, req.body, { new: true });
         if (patient) {
@@ -205,7 +205,7 @@ router.put('/patient/:patientId', authenticateJwt, async (req, res) => {
     }
 });
 // doctor 
-router.put('/doctor/:doctorId', authenticateJwt, async (req, res) => {
+router.put('/doctor/:doctorId', authenticateAdminJwt, async (req, res) => {
     try {
         const doctor = await Doctor.findByIdAndUpdate(req.params.doctorId, req.body, { new: true });
         if (doctor) {
@@ -219,7 +219,7 @@ router.put('/doctor/:doctorId', authenticateJwt, async (req, res) => {
     }
 });
 // to add a particular doctor in a hospital
-router.put('/hospital/:hospitalId/adddoctor', authenticateJwt, async (req, res) => {
+router.put('/hospital/:hospitalId/adddoctor', authenticateAdminJwt, async (req, res) => {
     try {
         const hospital = await Hospital.findById(req.params.hospitalId);
         if (!hospital) {

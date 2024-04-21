@@ -3,10 +3,36 @@ const express = require('express');
 const {User, Hospital, Doctor, Patient,} = require('../db/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {SECRET} = require("../middleware/auth")
-const {authenticateJwt} = require("../middleware/auth");
+const {userSecret} = require("../middleware/auth")
+const {authenticateUserJwt} = require("../middleware/auth");
 
 const router = express.Router();
+
+router.get('/me', authenticateUserJwt, async (req, res) => {
+    try {
+        console.log(req);
+        if (!req.user) {
+            // Handle case where req.user is undefined or does not have username
+            res.status(403).json({ message: "User not authenticated" });
+            return;
+        }
+
+        // Find the admin by username asynchronously
+        const user = await User.findOne({ username: req.user.username });
+
+        if (!user) {
+            // Handle case where admin with the provided username does not exist
+            res.status(403).json({ message: "User not found" });
+            return;
+        }
+
+        // Send the name of the found admin as JSON response
+        res.json({ name: user.name });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 router.post('/signup', async(req, res) => {
     const { username, password,name } = req.body;
@@ -17,7 +43,7 @@ router.post('/signup', async(req, res) => {
         const hashedPassword = await bcrypt.hash(password,10);
         const newUser = new User({ username, password:hashedPassword,name});
         await newUser.save();
-        const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ username, role: 'user' }, userSecret, { expiresIn: '1h' });
         res.json({ message: "User created", token });
     }
 });
@@ -52,7 +78,7 @@ router.post('/login', async (req, res) => {
             return;
         }
 
-        const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ username, role: 'user' }, userSecret, { expiresIn: '1h' });
         res.json({ message: "Logged in", token });
     } catch (error) {
         console.error(error);
@@ -60,7 +86,7 @@ router.post('/login', async (req, res) => {
     }
 });
     // to post patient
-    router.post('/patient', authenticateJwt, async(req, res) => {
+    router.post('/patient', authenticateUserJwt, async(req, res) => {
         try{
             const patient = new Patient(req.body);
             await patient.save();
@@ -74,7 +100,7 @@ router.post('/login', async (req, res) => {
             
         });
 // to view available services
-router.get('/hospitals', authenticateJwt, async(req,res)=>{
+router.get('/hospitals', authenticateUserJwt, async(req,res)=>{
     try{
     const hospitals = await Hospital.find({});
     res.json({hospitals});
@@ -84,7 +110,7 @@ router.get('/hospitals', authenticateJwt, async(req,res)=>{
         res.status(500).json({ message: "Internal server error" });
     }
 });
-router.get('/patients', authenticateJwt, async (req, res) => {
+router.get('/patients', authenticateUserJwt, async (req, res) => {
     try {
         // At this point, if the request has reached here, it means authentication was successful
         const patients = await Patient.find({});
@@ -94,7 +120,7 @@ router.get('/patients', authenticateJwt, async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
-router.get('/doctors', authenticateJwt, async (req, res) => {
+router.get('/doctors', authenticateUserJwt, async (req, res) => {
     try {
         // At this point, if the request has reached here, it means authentication was successful
         const doctors = await Doctor.find({});
@@ -106,7 +132,7 @@ router.get('/doctors', authenticateJwt, async (req, res) => {
 });
 
 // to view a particular service
-router.get("/hospital/:hosptialId", authenticateJwt, async(req,res)=>{
+router.get("/hospital/:hosptialId", authenticateUserJwt, async(req,res)=>{
     try{
     const hospitalId = req.params.hosptialId;
     const hospital = await Hospital.findById(hospitalId);
@@ -118,7 +144,7 @@ router.get("/hospital/:hosptialId", authenticateJwt, async(req,res)=>{
         res.status(500).json({message:"failed"})
     }
 })
-router.get("/doctor/:doctorId", authenticateJwt, async(req,res)=>{
+router.get("/doctor/:doctorId", authenticateUserJwt, async(req,res)=>{
     try{
     const doctorId = req.params.doctorId;
     const doctor = await Doctor.findById(doctorId);
@@ -130,7 +156,7 @@ router.get("/doctor/:doctorId", authenticateJwt, async(req,res)=>{
         res.status(500).json({message:"failed"})
     }
 })
-router.get("/patient/:patientId", authenticateJwt, async(req,res)=>{
+router.get("/patient/:patientId", authenticateUserJwt, async(req,res)=>{
     try{
     const  patientId = req.params.patientId;
     const patient = await Patient.findById(patientId);
@@ -143,7 +169,7 @@ router.get("/patient/:patientId", authenticateJwt, async(req,res)=>{
     }
 })
 
-router.post('/doctor/:doctorId', authenticateJwt, async(req,res)=>{
+router.post('/doctor/:doctorId', authenticateUserJwt, async(req,res)=>{
     try{
     const doctor = await Doctor.findById(req.params.doctorId);
     if(doctor){
@@ -171,7 +197,7 @@ catch (error) {
 }
 });
 
-router.get('/appointment', authenticateJwt, async (req, res) => {
+router.get('/appointment', authenticateUserJwt, async (req, res) => {
     try {
         // Find the user by username from the JWT payload and populate the purchasedCourses field
         const user = await User.findOne({ username: req.user.username }).populate('purchased');

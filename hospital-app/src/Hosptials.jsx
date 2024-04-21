@@ -34,6 +34,7 @@ function Hospitals() {
         {/* courses is an object so need to stringify */}
         
         {courses.map((course)=>{
+            // passing course state in variable course
             return <Course course={course} />
         })}
         </div>
@@ -57,6 +58,7 @@ export function Course (props){
 {/* { {props.course.purchased.map((doctorId)=>{ */}
     {/* <DoctorDetails doctorId={props.course.purchased[0]} /> */}
 {/* })} } */}
+{/* shows list of doctors under a particular hospital */}
 {props.course.purchased.map((doctorId) => (
                 <DoctorDetails key={doctorId} doctorId={doctorId} />
             ))}
