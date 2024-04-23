@@ -69,7 +69,7 @@ function USignin() {
                     })
                     let data = response.data;
                     localStorage.setItem("token", data.token);
-                    window.location="/upets"
+                    window.location="/uHospitals"
                     // navigate("/upets");
                 }}
                 >Submit</Button>

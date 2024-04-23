@@ -44,7 +44,8 @@ router.post('/signup', async(req, res) => {
         const newUser = new User({ username, password:hashedPassword,name});
         await newUser.save();
         const token = jwt.sign({ username, role: 'user' }, userSecret, { expiresIn: '1h' });
-        res.json({ message: "User created", token });
+        res.json({ message: "User created", token,userId: newUser.id });
+
     }
 });
 
@@ -86,11 +87,18 @@ router.post('/login', async (req, res) => {
     }
 });
     // to post patient
-    router.post('/patient', authenticateUserJwt, async(req, res) => {
+    router.post('/:userId/patient', authenticateUserJwt, async(req, res) => {
         try{
             const patient = new Patient(req.body);
             await patient.save();
-            // patientId is var which stores animal id
+            // patientId is var which stores patient id
+            const userId = req.params.userId;
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).json({ message: "User not found" });
+              }
+            user.patien.push(patient._id);
+            await user.save();
             res.json({ message: "Patient added successfully", patientId: patient.id });
         }
         catch(error){

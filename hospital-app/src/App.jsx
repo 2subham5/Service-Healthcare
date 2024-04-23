@@ -105,7 +105,7 @@ function App() {
           <Route path="/udoctor/:docId" element={<UDoctor />} />
           <Route path="/uHospitals" element={<UHospital />} />
           <Route path="/uhospital/:hospitalId/doctors" element={<UDoctors />} /> 
-          <Route path="/addPatient" element={<AddPatients />} /> 
+          <Route path="/:userId/addPatient" element={<AddPatients />} /> 
 
         </Routes>
       </Router>

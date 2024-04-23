@@ -45,6 +45,7 @@ export function Course (props){
     const { hospitalId } = useParams();
     const handleViewDoctors = () => {
         navigate("/uhospital/" + props.course._id + "/doctors"); // Navigate to Doctors component with hospital ID
+      
       };
     return <Card style={{
         border: "2px solid black",
@@ -55,20 +56,13 @@ export function Course (props){
  <Typography textAlign={"centre"} variant="h4">{props.course.name}</Typography>
  <Typography textAlign={"centre"} variant="h4">{props.course.address}</Typography>
  {/* <Typography textAlign={"centre"} variant="h4">{props.course.purchased[0]}</Typography> */}
-{/* { {props.course.purchased.map((doctorId)=>{ */}
-    {/* <DoctorDetails doctorId={props.course.purchased[0]} /> */}
-{/* })} } */}
+
 {/* shows list of doctors under a particular hospital */}
-{/* {props.course.purchased.map((doctorId) => (
+{props.course.purchased.map((doctorId) => (
                 <DoctorDetails key={doctorId} doctorId={doctorId} />
-            ))} */}
+            ))}
  <div>
- {/* <Button onClick={()=>{
-    // _id is the convention used for id's
-    navigate("/hospital/" + props.course._id);
- }}>
-    Edit
- </Button> */}
+
  </div>
  <div>
  <Button onClick={handleViewDoctors}>View Doctors</Button> {/* Button to view doctors */}

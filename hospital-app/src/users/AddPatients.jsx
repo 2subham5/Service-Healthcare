@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import { useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 function AddPatients() {
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
@@ -12,8 +13,7 @@ function AddPatients() {
     const [gender,setGender] = useState("");
     const [patientCurrentCondition,setpatientCurrentCondition] = useState("");
     const [patientPastHistory,setpatientPastHistory] = useState("");
-    // const [image, setImage]= useState("");
-    // const[price,setPrice]= useState(0);
+     const {userId} = useParams();
     return (
         <div style={{ display: "flex", justifyContent: "centre" }}>
             <Card variant={"outlined"} style={{ width: 400, padding: 20 }}>
@@ -84,7 +84,7 @@ function AddPatients() {
                 <Button size={"large "} variant="contained"
                     onClick={async() => {
                    
-                        await axios.post("http://localhost:3000/user/patient",{
+                        await axios.post(`http://localhost:3000/user/${userId}/patient`,{
                             //left is backend var : frontvar
                             patientName:name,
                             age:age,
