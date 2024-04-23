@@ -9,7 +9,7 @@ import Doctors from './Doctors';
 import Patients from './Patients';
 import AddDoctor from './AddDoctor';
 import AddHospital from './AddHospital';
-import AddPatients from './AddPatients';
+// import AddPatients from './users/AddPatients';
 import Hospital from './Hospital';
 import Doctor from './Doctor';
 
@@ -19,6 +19,8 @@ import USignin from './users/USignin';
 import UDoctors from './users/UDoctors'
 import UHospital from './users/UHospital';
 import UAppbar from './users/UAppbar';
+import AddPatients from './users/AddPatients';
+import UDoctor from './users/UDoctor';
 import './App.css'
 
 
@@ -27,50 +29,50 @@ function App() {
 
   const [userName, setUserName] = useState(null);
   const [userType, setUserType] = useState("");
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     // Check if the user is logged in as an admin
-  //     fetch('http://localhost:3000/admin/me', {
-  //         method: "GET",
-  //         headers: {
-  //             "Authorization": "Bearer " + token
-  //         }
-  //     })
-  //     .then(res => res.json())
-  //     .then((data) => {
-  //         if (data.name) {
-  //             setUserName(data.name);
-  //             setUserType("admin");
-  //         }
-  //     })
-  //     .catch(error => {
-  //         // Handle error
-  //         console.error("Error fetching admin data:", error);
-  //     });
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Check if the user is logged in as an admin
+      fetch('http://localhost:3000/admin/me', {
+          method: "GET",
+          headers: {
+              "Authorization": "Bearer " + token
+          }
+      })
+      .then(res => res.json())
+      .then((data) => {
+          if (data.name) {
+              setUserName(data.name);
+              setUserType("admin");
+          }
+      })
+      .catch(error => {
+          // Handle error
+          console.error("Error fetching admin data:", error);
+      });
 
-  //     // If not admin, check if the user is logged in as a regular user
-  //     if (userType !== "admin") {
-  //       fetch('http://localhost:3000/user/me', {
-  //           method: "GET",
-  //           headers: {
-  //               "Authorization": "Bearer " + token
-  //           }
-  //       })
-  //       .then(res => res.json())
-  //       .then((data) => {
-  //           if (data.name) {
-  //               setUserName(data.name);
-  //               setUserType("user");
-  //           }
-  //       })
-  //       .catch(error => {
-  //           // Handle error
-  //           console.error("Error fetching user data:", error);
-  //       });
-  //     }
-  //   }
-  // }, [userType]); // useEffect will re-run if userType changes
+      // If not admin, check if the user is logged in as a regular user
+      if (userType !== "admin") {
+        fetch('http://localhost:3000/user/me', {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        })
+        .then(res => res.json())
+        .then((data) => {
+            if (data.name) {
+                setUserName(data.name);
+                setUserType("user");
+            }
+        })
+        .catch(error => {
+            // Handle error
+            console.error("Error fetching user data:", error);
+        });
+      }
+    }
+  }, [userType]); // useEffect will re-run if userType changes
 
   return (
     <div style={{
@@ -93,15 +95,17 @@ function App() {
          <Route path="/hospital/:hospitalId" element={<Hospital />} />
           <Route path="/addHospital" element={<AddHospital />} /> 
         <Route path="/addDoctor" element={<AddDoctor />} /> 
-        <Route path="/addPatient" element={<AddPatients />} /> 
+        
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           {/* Users */}
            <Route path="/userlogin" element={<USignin />} />
           <Route path="/usersignup" element={<USignup />} />
           <Route path="/uDoctors" element={<UDoctors />} /> 
-          <Route path="/uHospitals" element={<UHospital />} /> 
-
+          <Route path="/udoctor/:docId" element={<UDoctor />} />
+          <Route path="/uHospitals" element={<UHospital />} />
+          <Route path="/uhospital/:hospitalId/doctors" element={<UDoctors />} /> 
+          <Route path="/addPatient" element={<AddPatients />} /> 
 
         </Routes>
       </Router>

@@ -4,7 +4,7 @@ import { Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 function UDoctors() {
-    const [courses, setCourses] = useState([]);
+    const [doctors, setDoctor] = useState([]);
     useEffect(() => {
     //     fetch("http://localhost:3000/admin/courses", {
     //         method: "GET",
@@ -21,15 +21,15 @@ function UDoctors() {
                 "Authorization": "Bearer " + localStorage.getItem("token")
             }
         }).then(res=>{
-            setCourses(res.data);
+            setDoctor(res.data);
         })
     }, []);
     return <div style={{display:"flex"}}>
        Doctors
         {/* courses is an object so need to stringify */}
         
-        {courses.map((course)=>{
-            return <Course course={course} />
+        {doctors.map((doctor)=>{
+            return <Course doctor={doctor} />
         })}
         </div>
 }
@@ -42,15 +42,15 @@ export function Course (props){
         width: 300
     }}>
     {/* title description all these from backend */}
- <Typography textAlign={"centre"} variant="h4">{props.course.doctorName}</Typography>
- <Typography textAlign={"centre"} variant="h4">{props.course.degree}</Typography>
+ <Typography textAlign={"centre"} variant="h4">{props.doctor.doctorName}</Typography>
+ <Typography textAlign={"centre"} variant="h4">{props.doctor.degree}</Typography>
  {/* <Typography textAlign={"centre"} variant="h4">{props.course.price}</Typography>
  <img style={{width:300, height:200}} src = {props.course.imageLink}></img> */}
  <div><Button onClick={()=>{
     // _id is the convention used for id's
-    navigate("/pet/" + props.course._id);
+    navigate("/udoctor/" + props.doctor._id);
  }}>
-    Edit
+   View
  </Button></div>
     </Card>
     }

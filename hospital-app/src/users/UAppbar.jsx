@@ -2,24 +2,25 @@ import { Button, Typography } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 
-function UAppbar() {
+function UAppbar({userName},{setUserName}) {
     const navigate = useNavigate();
-    const [userName, setUserName] = useState(null);
+    // const [userName, setUserName] = useState(null);
 
-    useEffect(() => {
-        fetch('http://localhost:3000/admin/me', {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        })
-        .then(res => res.json())
-        .then((data) => {
-            if (data.name) {
-                setUserName(data.name);
-            }
-        });
-    }, []);
+    // useEffect(() => {
+    //     fetch('http://localhost:3000/admin/me', {
+    //         method: "GET",
+    //         headers: {
+    //             "Authorization": "Bearer " + localStorage.getItem("token")
+    //         }
+    //     })
+    //     .then(res => res.json())
+    //     .then((data) => {
+    //         if (data.name) {
+    //             console.log(data);
+    //             setUserName(data.name);
+    //         }
+    //     });
+    // }, []);
 
     if (userName) {
         return (

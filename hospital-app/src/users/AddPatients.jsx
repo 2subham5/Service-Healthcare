@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import { useState } from "react";
 import axios from "axios";
-function AddHospital() {
+function AddPatients() {
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
     const [location, setLocation] = useState("");
@@ -84,7 +84,7 @@ function AddHospital() {
                 <Button size={"large "} variant="contained"
                     onClick={async() => {
                    
-                        await axios.post("http://localhost:3000/admin/patient",{
+                        await axios.post("http://localhost:3000/user/patient",{
                             //left is backend var : frontvar
                             patientName:name,
                             age:age,
@@ -102,13 +102,13 @@ function AddHospital() {
                                 "Authorization": "Bearer " + localStorage.getItem("token")
                             }
                         });
-                        alert("Doctor added!");
+                        alert("Patient added!");
                     }}
 
-                >Add Hospital</Button>
+                >Add Patient</Button>
             </Card>
         </div>
     )
 }
 
-export default AddHospital;
+export default AddPatients;

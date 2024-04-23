@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import { Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-function Doctors() {
+function Patients() {
     const [courses, setCourses] = useState([]);
     useEffect(() => {
     //     fetch("http://localhost:3000/admin/courses", {
@@ -55,4 +55,4 @@ export function Course (props){
     </Card>
     }
 
-export default Doctors;
+export default Patients;
