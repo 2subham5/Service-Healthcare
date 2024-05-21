@@ -22,6 +22,14 @@ const adminSchema = new mongoose.Schema({
     password:{type:String,
         required: true}
 });
+const employeeSchema = new mongoose.Schema({
+    name: {type:String,
+        required: true
+    },
+    designation: {type: String,
+        required: true
+    }
+})
 const patientSchema = new mongoose.Schema({
     patientName: {
         type: String,
@@ -101,10 +109,12 @@ const Admin = mongoose.model('Admin', adminSchema);
 const Doctor = mongoose.model('Doctor', doctorSchema);
 const Hospital = mongoose.model('Hospital', hospitalSchema);
 const Patient = mongoose.model('Patient', patientSchema);
+const Employee = mongoose.model('Employee', employeeSchema);
 module.exports = {
     User,
     Admin,
     Doctor,
     Hospital,
-    Patient
+    Patient,
+    Employee
 }

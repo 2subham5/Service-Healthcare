@@ -3,18 +3,26 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import { useState } from "react";
 import axios from "axios";
+import UAppbar from "./UAppbar";
 import { useParams } from "react-router-dom";
-function AddPatients() {
+function AddPatients({ userType, userName, setUserName }) {
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
     const [location, setLocation] = useState("");
     const [bloodGroup, setBloodGrp] = useState("");
-    const [guardian,setGuardian] = useState("");
-    const [gender,setGender] = useState("");
-    const [patientCurrentCondition,setpatientCurrentCondition] = useState("");
-    const [patientPastHistory,setpatientPastHistory] = useState("");
-     const {userId} = useParams();
+    const [guardian, setGuardian] = useState("");
+    const [gender, setGender] = useState("");
+    const [patientCurrentCondition, setpatientCurrentCondition] = useState("");
+    const [patientPastHistory, setpatientPastHistory] = useState("");
+    const { userId } = useParams();
     return (
+        <div>
+<div>
+                {/* Conditionally render Appbar based on userType */}
+                {userType === "admin" || userType === "user" ? (
+                    <UAppbar userName={userName} setUserName={setUserName} />
+                ) : null}
+            </div>
         <div style={{ display: "flex", justifyContent: "centre" }}>
             <Card variant={"outlined"} style={{ width: 400, padding: 20 }}>
                 <TextField
@@ -107,6 +115,7 @@ function AddPatients() {
 
                 >Add Patient</Button>
             </Card>
+        </div>
         </div>
     )
 }

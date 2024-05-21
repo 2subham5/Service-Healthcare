@@ -4,8 +4,9 @@ import { Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import UAppbar from "./UAppbar";
 // import Doctor from "./Doctor";
-function UHospital() {
+function UHospital({ userType, userName, setUserName }) {
  
  
     const [courses, setCourses] = useState([]);
@@ -29,7 +30,15 @@ function UHospital() {
         })
     }, []);
    
-    return <div style={{display:"flex"}}>
+    return (
+        <div>
+        <div>
+                        {/* Conditionally render Appbar based on userType */}
+                        {userType === "admin" || userType === "user" ? (
+                            <UAppbar userName={userName} setUserName={setUserName} />
+                        ) : null}
+                    </div>
+    <div style={{display:"flex"}}>
        HOSPITALS
         {/* courses is an object so need to stringify */}
         
@@ -38,6 +47,8 @@ function UHospital() {
             return <Course course={course} />
         })}
         </div>
+        </div>
+    )
 }
 
 export function Course (props){

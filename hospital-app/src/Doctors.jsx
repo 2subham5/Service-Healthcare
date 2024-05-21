@@ -5,8 +5,8 @@ import { Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
-function Doctors() { // Accept hospitalId as a prop
+import Appbar from "./Appbar";
+function Doctors({ userType, userName, setUserName }) { // Accept hospitalId as a prop
     const [doctors, setDoctors] = useState([]);
 
     useEffect(() => {
@@ -21,17 +21,17 @@ function Doctors() { // Accept hospitalId as a prop
         });
     }, []);
 
-   
+
     const { hospitalId } = useParams();
     const addToHospital = async (doctorId) => {
-        
+
         try {
             const response = await axios.put(`http://localhost:3000/admin/hospital/${hospitalId}/adddoctor`, { doctorId }, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token")
                 }
             });
-            
+
             console.log(response.data);
             console.log("success"); // Log success message or handle as needed
         } catch (error) {
@@ -40,14 +40,25 @@ function Doctors() { // Accept hospitalId as a prop
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Typography variant="h4">Doctors</Typography>
-            {doctors.map((doctor) => {
-                return (
-                    <Doctor key={doctor._id} doctor={doctor} addToHospital={addToHospital} />
-                );
-            })}
+        <div>
+            <div>
+                {/* Conditionally render Appbar based on userType */}
+                {userType === "admin" || userType === "user" ? (
+                    <Appbar userName={userName} setUserName={setUserName} />
+                ) : null}
+            </div>
+            {/* Doctor component UI */}
+
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <Typography variant="h4">Doctors</Typography>
+                {doctors.map((doctor) => {
+                    return (
+                        <Doctor key={doctor._id} doctor={doctor} addToHospital={addToHospital} />
+                    );
+                })}
+            </div>
         </div>
+
     );
 }
 

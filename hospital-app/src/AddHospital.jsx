@@ -3,12 +3,20 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import { useState } from "react";
 import axios from "axios";
-function AddHospital() {
+import Appbar from "./Appbar";
+function AddHospital({ userType, userName, setUserName }) {
     const [name, setName] = useState("");
     const [address, setAddress] = useState("");
     // const [image, setImage]= useState("");
     // const[price,setPrice]= useState(0);
     return (
+        <div>
+        <div>
+        {/* Conditionally render Appbar based on userType */}
+        {userType === "admin" || userType === "user" ? (
+          <Appbar userName={userName} setUserName={setUserName} />
+        ) : null}
+      </div>
         <div style={{ display: "flex", justifyContent: "centre" }}>
             <Card variant={"outlined"} style={{ width: 400, padding: 20 }}>
                 <TextField
@@ -56,6 +64,7 @@ function AddHospital() {
 
                 >Add Hospital</Button>
             </Card>
+        </div>
         </div>
     )
 }

@@ -4,13 +4,10 @@ import Card from '@mui/material/Card';
 import { useState } from "react";
 import axios from "axios";
 import Appbar from "./Appbar";
-function AddDoctor({ userType, userName, setUserName }) {
+function AddEmployee({ userType, userName, setUserName }) {
     const [name, setName] = useState("");
-    const [degree, setDegree] = useState("");
-    const [reg, setReg] = useState("");
-    const [category, setCategory] = useState("");
-    const [image, setImage]= useState("");
-    // const[price,setPrice]= useState(0);
+    const [designation, setDesignation] = useState("");
+
     return (
         <div>
         <div>
@@ -31,46 +28,20 @@ function AddDoctor({ userType, userName, setUserName }) {
                 />
                 <TextField
                     onChange={(e) => {
-                        setDegree(e.target.value)
+                        setDesignation(e.target.value)
                     }}
                     fullWidth={true}
-                    label="Degree"
+                    label="Designation"
                     variant="outlined"
                 />
-                <TextField
-                    onChange={(e) => {
-                        setImage(e.target.value)
-                    }}
-                    fullWidth={true}
-                    label="Image"
-                    variant="outlined"
-                />
-                 <TextField
-                    onChange={(e) => {
-                        setReg(e.target.value)
-                    }}
-                    fullWidth={true}
-                    label="Registration No."
-                    variant="outlined"
-                />
-                <TextField
-                    onChange={(e) => {
-                        setCategory(e.target.value)
-                    }}
-                    fullWidth={true}
-                    label="Specialization"
-                    variant="outlined"
-                />  
+                
                 <Button size={"large "} variant="contained"
                     onClick={async() => {
                        
-                        await axios.post("http://localhost:3000/admin/doctor",{
+                        await axios.post("http://localhost:3000/admin/employee",{
                             //left is backend var : frontvar
-                            doctorName:name,
-                            degree:degree,
-                            imgLink:image,
-                            reg:reg,
-                            category:category,
+                            name:name,
+                            designation:designation,
                             published: true,
                             
                         },
@@ -79,14 +50,14 @@ function AddDoctor({ userType, userName, setUserName }) {
                                 "Authorization": "Bearer " + localStorage.getItem("token")
                             }
                         });
-                        alert("Doctor added!");
+                        alert("Employee added!");
                     }}
 
-                >Add Doctor</Button>
+                >Add Employee</Button>
             </Card>
         </div>
         </div>
     )
 }
 
-export default AddDoctor;
+export default AddEmployee;

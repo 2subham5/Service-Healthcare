@@ -3,7 +3,8 @@ import Card from '@mui/material/Card';
 import { Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-function Patients() {
+import Appbar from "./Appbar";
+function Patients({ userType, userName, setUserName }) {
     const [courses, setCourses] = useState([]);
     useEffect(() => {
     //     fetch("http://localhost:3000/admin/courses", {
@@ -24,7 +25,15 @@ function Patients() {
             setCourses(res.data);
         })
     }, []);
-    return <div style={{display:"flex"}}>
+    return (
+        <div>
+        <div>
+        {/* Conditionally render Appbar based on userType */}
+        {userType === "admin" || userType === "user" ? (
+            <Appbar userName={userName} setUserName={setUserName} />
+        ) : null}
+    </div>
+    <div style={{display:"flex"}}>
        Patients
         {/* courses is an object so need to stringify */}
         
@@ -32,6 +41,8 @@ function Patients() {
             return <Course course={course} />
         })}
         </div>
+        </div>
+    )
 }
 
 export function Course (props){
@@ -46,12 +57,12 @@ export function Course (props){
  <Typography textAlign={"centre"} variant="h4">{props.course.patientCurrentCondition}</Typography>
   <Typography textAlign={"centre"} variant="h4">{props.course.age}</Typography>
  {/* <img style={{width:300, height:200}} src = {props.course.imageLink}></img>  */}
- <div><Button onClick={()=>{
+ {/* <div><Button onClick={()=>{
     // _id is the convention used for id's
     navigate("/pet/" + props.course._id);
  }}>
     Edit
- </Button></div>
+ </Button></div> */}
     </Card>
     }
 

@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom";
 import { Typography } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
-function UDoctor() {
+import UAppbar from "./UAppbar";
+function UDoctor({ userType, userName, setUserName }) {
   const [doctor, setDoctor] = useState(null);
 
   const { docId } = useParams();
@@ -31,6 +31,13 @@ function UDoctor() {
   }
 
   return (
+    <div>
+    <div>
+                    {/* Conditionally render Appbar based on userType */}
+                    {userType === "admin" || userType === "user" ? (
+                        <UAppbar userName={userName} setUserName={setUserName} />
+                    ) : null}
+                </div>
     <div style={{ display: "flex", justifyContent: "center" }}>
       <Card style={{ border: "2px solid black", margin: 10, width: 300 }}>
         <Typography variant="h4">Doctor Details</Typography>
@@ -43,7 +50,7 @@ function UDoctor() {
       </Card>
     
     </div>
-
+</div>
   );
 }
 

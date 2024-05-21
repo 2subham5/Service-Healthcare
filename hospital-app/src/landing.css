@@ -1,0 +1,27 @@
+.landing-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .buttons-container {
+    margin-top: 20px;
+  }
+  
+  .admin-button, .user-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .admin-button {
+    background-color: #FF6347; /* Tomato */
+    color: white;
+  }
+  
+  .user-button {
+    background-color: #4682B4; /* Steel Blue */
+    color: white;
+  }
+  

@@ -1,5 +1,5 @@
 const express = require('express');
-const {  Admin, Doctor, Hospital, Patient  } = require('../db/db');
+const {  Admin, Doctor, Hospital, Patient,Employee  } = require('../db/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { adminSecret } = require("../middleware/auth");
@@ -175,6 +175,29 @@ router.get("/patient/:PatientId", authenticateAdminJwt, async(req,res)=>{
         res.status(500).json({message:"failed"})
     }
 })
+// add employee
+
+router.post("/employee", authenticateAdminJwt, async(req,res)=>{
+    try{
+        const employee = new Employee(req.body);
+        await employee.save();
+        res.json({msg:"Employee added", employeeId:employee.id})
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+})
+router.get('/employees', authenticateAdminJwt, async (req, res) => {
+    try {
+        // At this point, if the request has reached here, it means authentication was successful
+        const employees = await Employee.find({});
+        res.json(employees);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 // update routes
 router.put('/hospital/:hospitalId', authenticateAdminJwt, async (req, res) => {
     try {

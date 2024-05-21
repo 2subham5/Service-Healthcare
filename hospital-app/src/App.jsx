@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from "react";
+import Landing from './Landing';
 import Signup from './Signup'
 import Login from './Login';
 
@@ -12,6 +13,7 @@ import AddHospital from './AddHospital';
 // import AddPatients from './users/AddPatients';
 import Hospital from './Hospital';
 import Doctor from './Doctor';
+import AddEmployee from './AddEmployee';
 
 // users
 import USignup from './users/USignup';
@@ -30,6 +32,8 @@ function App() {
   const [userName, setUserName] = useState(null);
   const [userType, setUserType] = useState("");
   useEffect(() => {
+    
+    
     const token = localStorage.getItem("token");
     if (token) {
       // Check if the user is logged in as an admin
@@ -80,32 +84,37 @@ function App() {
       height: "100vw",
       backgroundColor: "#eeeeee"
     }} >
+    
       <Router>
-        {userType === "admin" ?
+        {/* {userType === "admin" ?
           <Appbar userName={userName} setUserName={setUserName}></Appbar> :
           <UAppbar userName={userName} setUserName={setUserName}></UAppbar>
-        }
+        } */}
         <Routes>
-
-        <Route path="/hospitals" element={<Hospitals />} /> 
-        <Route path="/doctors" element={<Doctors />} />
-        <Route path="/hospital/:hospitalId/doctors" element={<Doctors />} />
-        <Route path="/patients" element={<Patients />} />
-         <Route path="/doctor/:docId" element={<Doctor />} />  
-         <Route path="/hospital/:hospitalId" element={<Hospital />} />
-          <Route path="/addHospital" element={<AddHospital />} /> 
-        <Route path="/addDoctor" element={<AddDoctor />} /> 
+        <Route path="/" element={<Landing/>} /> 
+        <Route path="/user" element={<UAppbar />} /> 
+        <Route path="/admin" element={<Appbar />} />
+        <Route path="/hospitals" element={<Hospitals userType={userType} userName={userName} setUserName={setUserName} />} />
+        <Route path="/hospital/:hospitalId/doctors" element={<Doctors  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
+        <Route path="/doctors" element={<Doctors userType={userType} userName={userName} setUserName={setUserName} />} />
+        <Route path="/hospital/:hospitalId/doctors" element={<Doctors  userType={userType} userName={userName} setUserName={setUserName}/>} />
+        <Route path="/patients" element={<Patients  userType={userType} userName={userName} setUserName={setUserName}/>} />
+         <Route path="/doctor/:docId" element={<Doctor  userType={userType} userName={userName} setUserName={setUserName}/>} />  
+         <Route path="/hospital/:hospitalId" element={<Hospital  userType={userType} userName={userName} setUserName={setUserName}/>} />
+          <Route path="/addHospital" element={<AddHospital  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
+        <Route path="/addDoctor" element={<AddDoctor  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
+        <Route path="/addEmployee" element={<AddEmployee  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
         
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login userType={userType} userName={userName} setUserName={setUserName}/>} />
           <Route path="/signup" element={<Signup />} />
           {/* Users */}
            <Route path="/userlogin" element={<USignin />} />
           <Route path="/usersignup" element={<USignup />} />
-          <Route path="/uDoctors" element={<UDoctors />} /> 
-          <Route path="/udoctor/:docId" element={<UDoctor />} />
-          <Route path="/uHospitals" element={<UHospital />} />
-          <Route path="/uhospital/:hospitalId/doctors" element={<UDoctors />} /> 
-          <Route path="/:userId/addPatient" element={<AddPatients />} /> 
+          <Route path="/uDoctors" element={<UDoctors  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
+          <Route path="/udoctor/:docId" element={<UDoctor  userType={userType} userName={userName} setUserName={setUserName}/>} />
+          <Route path="/uHospitals" element={<UHospital  userType={userType} userName={userName} setUserName={setUserName}/>} />
+          <Route path="/uhospital/:hospitalId/doctors" element={<UDoctors  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
+          <Route path="/:userId/addPatient" element={<AddPatients  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
 
         </Routes>
       </Router>

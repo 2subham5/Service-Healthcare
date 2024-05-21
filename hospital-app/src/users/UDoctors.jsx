@@ -3,7 +3,8 @@ import Card from '@mui/material/Card';
 import { Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-function UDoctors() {
+import UAppbar from "./UAppbar";
+function UDoctors({ userType, userName, setUserName }) {
     const [doctors, setDoctor] = useState([]);
     useEffect(() => {
     //     fetch("http://localhost:3000/admin/courses", {
@@ -24,13 +25,21 @@ function UDoctors() {
             setDoctor(res.data);
         })
     }, []);
-    return <div style={{display:"flex"}}>
+    return <div>
+    <div>
+                    {/* Conditionally render Appbar based on userType */}
+                    {userType === "admin" || userType === "user" ? (
+                        <UAppbar userName={userName} setUserName={setUserName} />
+                    ) : null}
+                </div>
+    <div style={{display:"flex"}}>
        Doctors
         {/* courses is an object so need to stringify */}
         
         {doctors.map((doctor)=>{
             return <Course doctor={doctor} />
         })}
+        </div>
         </div>
 }
 
@@ -53,6 +62,7 @@ export function Course (props){
    View
  </Button></div>
     </Card>
+
     }
 
 export default UDoctors;
