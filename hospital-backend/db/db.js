@@ -13,7 +13,12 @@ const userSchema = new mongoose.Schema({
         }]
   
 });
-
+const postSchema = new mongoose.Schema ({
+    title: String,
+    content: String
+})
+   
+  
 const adminSchema = new mongoose.Schema({
     name: {type:String,
         required: true},
@@ -110,11 +115,13 @@ const Doctor = mongoose.model('Doctor', doctorSchema);
 const Hospital = mongoose.model('Hospital', hospitalSchema);
 const Patient = mongoose.model('Patient', patientSchema);
 const Employee = mongoose.model('Employee', employeeSchema);
+const Post = mongoose.model('Post', postSchema);
 module.exports = {
     User,
     Admin,
     Doctor,
     Hospital,
     Patient,
-    Employee
+    Employee,
+    Post
 }

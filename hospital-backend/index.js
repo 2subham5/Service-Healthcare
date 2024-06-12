@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv')
 const adminRouter = require("./routes/admin"); 
 const userRouter = require("./routes/user");
+const blogRouter = require("./routes/blog");
 const {User,Admin,Course} = require('./db/db');
 const { authenticateJwt,SECRET} = require('./middleware/auth')
   
@@ -14,7 +15,7 @@ app.use(cors())
 app.use(express.json());
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
-
+app.use("/blog", blogRouter);
 
 
 // mongoose.connect

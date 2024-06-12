@@ -60,6 +60,7 @@ function Appbar({ userName, setUserName }) {
           <MenuItem onClick={() => navigate("/addHospital")}>Add Hospital</MenuItem>
           <MenuItem onClick={() => navigate("/addDoctor")}>Add Doctor</MenuItem>
           <MenuItem onClick={() => navigate("/addEmployee")}>Add Employee</MenuItem>
+          <MenuItem onClick={() => navigate("/employees")}>Employees</MenuItem>
         </Menu>
       </div>
     </div>

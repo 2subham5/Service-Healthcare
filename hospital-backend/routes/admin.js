@@ -119,6 +119,59 @@ router.get('/hospitals', authenticateAdminJwt, async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+// delete hospital
+
+router.delete('/hospital/:hospitalId', authenticateAdminJwt, async (req, res) => {
+    try {
+        const hospitalId = req.params.hospitalId;
+        const hospital = await Hospital.findById(hospitalId);
+        
+        if (!hospital) {
+            return res.status(404).json({ message: 'Hospital not found' });
+        }
+
+        await Hospital.findByIdAndDelete(hospitalId);
+        
+        res.status(200).json({ message: 'Hospital deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+router.delete('/patient/:patientId', authenticateAdminJwt, async (req, res) => {
+    try {
+        const patientId = req.params.patientId;
+        const patient = await Patient.findById(patientId);
+        
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+
+        await Patient.findByIdAndDelete(patientId);
+        
+        res.status(200).json({ message: 'Patient deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+router.delete('/employee/:employeeId', authenticateAdminJwt, async (req, res) => {
+    try {
+        const employeeId = req.params.employeeId;
+        const employee = await Employee.findById(employeeId);
+        
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+
+        await Employee.findByIdAndDelete(employeeId);
+        
+        res.status(200).json({ message: 'Employee deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 router.get('/patients', authenticateAdminJwt, async (req, res) => {
     try {
         // At this point, if the request has reached here, it means authentication was successful
@@ -196,6 +249,32 @@ router.get('/employees', authenticateAdminJwt, async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });
+    }
+});
+router.get("/employee/:employeeId", authenticateAdminJwt, async(req,res)=>{
+    try{
+    const employeeId = req.params.employeeId;
+    const employee = await Employee.findById(employeeId);
+    // console.log(employee);
+    res.json({employee})
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message:"failed"})
+    }
+})
+// update
+router.put('/employee/:employeeId', authenticateAdminJwt, async (req, res) => {
+    try {
+        const employee = await Employee.findByIdAndUpdate(req.params.employeeId, req.body, { new: true });
+        if (employee) {
+            res.status(200).json({ message: "Updated", employee });
+        } else {
+            res.status(404).json({ message: "Doctor doesn't exist" });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Failed to update doctor" });
     }
 });
 // update routes

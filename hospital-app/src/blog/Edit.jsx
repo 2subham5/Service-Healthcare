@@ -6,27 +6,27 @@ import { useParams } from "react-router-dom";
 import { Typography } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Appbar from "./Appbar";
-function Employee({ userType, userName, setUserName }) {
-  const [employee, setEmployee] = useState(null);
+import Appbar from "../Appbar";
+function Edit({ userType, userName, setUserName }) {
+  const [content, setContent] = useState(null);
 
-  const { employeeId } = useParams();
+  const { blogId } = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/admin/employee/${employeeId}`, {
+    axios.get(`http://localhost:3000/blog/post/${blogId}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
       .then((res) => {
-        setEmployee(res.data.employee);
+        setContent(res.data.post);
       })
       .catch((error) => {
-        console.error("Error fetching employee:", error);
+        console.error("Error fetching blog:", error);
       });
-  }, [employeeId]);
+  }, [blogId]);
 
-  if (!employee) {
+  if (!content) {
     return <Typography variant="h4">Loading...</Typography>;
   }
 
@@ -40,13 +40,15 @@ function Employee({ userType, userName, setUserName }) {
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Card style={{ border: "2px solid black", margin: 10, width: 300 }}>
-          <Typography variant="h4">Employee Details</Typography>
-          <Typography variant="h6">Name: {employee.name}</Typography>
-          <Typography variant="h6">Designation: {employee.designation}</Typography>
+          <Typography variant="h4">Blog</Typography>
+          
+          <Typography variant="h6"> {content.title}</Typography>
+          <Typography variant="p"> {content.content}</Typography>
+
         </Card>
         <div>
           {/* inside the bracket it's the state */}
-          <UpdateCard employee={employee} />
+          <UpdateCard content={content} />
         </div>
       </div>
       </div>
@@ -59,33 +61,32 @@ function Employee({ userType, userName, setUserName }) {
 
       // update card
 
-      function UpdateCard({employee, onUpdate}) {
-  const {employeeId} = useParams();
+      function UpdateCard({content, onUpdate}) {
+  const {blogId} = useParams();
 
-      const [updatedDoc, setUpdatedDoc] = useState({
-        name: employee.name,
-      designation: employee.designation,
-    
+      const [updatedBlog, setUpdatedBlog] = useState({
+       title:content.title,
+       content: content.content
   });
 
   const handleChange = (e) => {
     const {name, value} = e.target;
-    setUpdatedDoc((prevDoc) => ({
-        ...prevDoc,
+    setUpdatedBlog((prevBlog) => ({
+        ...prevBlog,
         [name]: value,
     }));
   };
 
   const handleSubmit = () => {
-        axios.put(`http://localhost:3000/admin/employee/${employeeId}`, updatedDoc, {
+        axios.put(`http://localhost:3000/blog/edit/${blogId}`, updatedBlog, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
 
           .then((res) => {
-            onUpdate(res.data.employee);
-            alert("Employee updated successfully!");
+            onUpdate(res.data.post);
+            alert("Blog updated successfully!");
           })
 
           .catch((error) => {
@@ -100,15 +101,15 @@ function Employee({ userType, userName, setUserName }) {
         width: 300
       }}>
         <TextField
-          name="name"
-          label="Employee Name"
-          value={updatedDoc.name}
+          name="title"
+          label="Title"
+          value={updatedBlog.title}
           onChange={handleChange}
         />
         <TextField
-          name="designation"
-          label="Designation"
-          value={updatedDoc.designation}
+          name="degree"
+          label="Degree"
+          value={updatedBlog.content}
           onChange={handleChange}
         />
        
@@ -120,4 +121,4 @@ function Employee({ userType, userName, setUserName }) {
 
 
 
-      export default Employee;
+      export default Edit;

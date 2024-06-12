@@ -14,7 +14,8 @@ import AddHospital from './AddHospital';
 import Hospital from './Hospital';
 import Doctor from './Doctor';
 import AddEmployee from './AddEmployee';
-
+import Employees from './Employees';
+import Employee from './Employee';
 // users
 import USignup from './users/USignup';
 import USignin from './users/USignin';
@@ -23,6 +24,10 @@ import UHospital from './users/UHospital';
 import UAppbar from './users/UAppbar';
 import AddPatients from './users/AddPatients';
 import UDoctor from './users/UDoctor';
+// blog
+import Compose from './blog/Compose';
+import Blogs from './blog/Blogs';
+import Edit from './blog/Edit';
 import './App.css'
 
 
@@ -104,7 +109,9 @@ function App() {
           <Route path="/addHospital" element={<AddHospital  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
         <Route path="/addDoctor" element={<AddDoctor  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
         <Route path="/addEmployee" element={<AddEmployee  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
-        
+        <Route path="/employees" element={<Employees  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
+        <Route path="/employee/:employeeId" element={<Employee  userType={userType} userName={userName} setUserName={setUserName}/>} />
+
           <Route path="/login" element={<Login userType={userType} userName={userName} setUserName={setUserName}/>} />
           <Route path="/signup" element={<Signup />} />
           {/* Users */}
@@ -115,7 +122,10 @@ function App() {
           <Route path="/uHospitals" element={<UHospital  userType={userType} userName={userName} setUserName={setUserName}/>} />
           <Route path="/uhospital/:hospitalId/doctors" element={<UDoctors  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
           <Route path="/:userId/addPatient" element={<AddPatients  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
-
+{/* Blog */}
+<Route path="/blog/compose" element={<Compose />} />
+<Route path="/blog/posts" element={<Blogs />} />
+<Route path="/blog/edit/:blogId" element={<Edit />} />
         </Routes>
       </Router>
 
