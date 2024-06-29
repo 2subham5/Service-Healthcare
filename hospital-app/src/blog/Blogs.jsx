@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from "react";
+
+
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-import { Typography } from "@mui/material";
-const Blogs = ()=>{
-   
+import './Blog.css';
+import Appbar from "../Appbar";
+const Blogs = ({ userType, userName, setUserName }) => {
     const [contents, setContent] = useState([]);
 
     useEffect(() => {
@@ -16,21 +16,31 @@ const Blogs = ()=>{
         }).then(res => {
             setContent(res.data);
         }).catch(error => {
-            console.error("Error fetching doctors:", error);
+            console.error("Error fetching blogs:", error);
         });
     }, []);
 
     return (
         <div>
-               {contents.map((content) => {
-                    return (
-                        <Content key={content._id} content={content} />
-                    );
-                })}
+        <div>
+        {/* Conditionally render Appbar based on userType */}
+        {userType === "admin" || userType === "user" ? (
+            <Appbar userName={userName} setUserName={setUserName} />
+        ) : null}
+    </div>
+        <div className="blog-container">
+            <h1 className="blog-title">Blog Posts</h1>
+            <div className="blog-grid">
+                {contents.map((content) => (
+                    <Content key={content._id} content={content} />
+                ))}
+            </div>
+        </div>
         </div>
     )
 }
-function Content({content}) {
+
+function Content({ content }) {
     const navigate = useNavigate();
 
     const handleEdit = () => {
@@ -38,14 +48,17 @@ function Content({content}) {
     };
 
     return (
-        <Card style={{ border: "2px solid black", margin: 10, width: 300 }}>
-            <Typography textAlign="center" variant="h4">{content.title}</Typography>
-            <Typography textAlign="center" variant="">{content.content}</Typography>
-            <div>
-                <Button onClick={handleEdit}>Edit</Button>
+        <div className="blog-card">
+            <h2 className="blog-card-title">{content.title}</h2>
+            <p className="blog-card-content">
+                { content.content}
+            </p>
+            <div className="blog-card-actions">
+                <button onClick={handleEdit} className="blog-card-button">Edit</button>
+                {/* <button onClick={() => navigate(`/blog/${content._id}`)} className="blog-card-button">Read More</button> */}
             </div>
-           
-        </Card>
+        </div>
     );
 }
+
 export default Blogs;

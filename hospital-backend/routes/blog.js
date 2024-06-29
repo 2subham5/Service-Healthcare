@@ -17,7 +17,21 @@ router.get("/",authenticateAdminJwt,async(req,res)=>{
         res.status(500).json({ message: "Internal server error" });
     }
 })
-
+router.get("/:blogId", authenticateAdminJwt, async (req, res) => {
+    try {
+        const blogId = req.params.blogId;
+        const blog = await Post.findById(blogId);
+        
+        if (!blog) {
+            return res.status(404).json({ message: "Blog post not found" });
+        }
+        
+        res.json(blog);
+    } catch (error) {
+        console.error("Error fetching blog post:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 router.post("/compose",authenticateAdminJwt, async(req,res)=>{
 
     try{
@@ -58,6 +72,18 @@ router.put('/edit/:blogId', authenticateAdminJwt, async (req, res) => {
         res.status(500).json({ message: "Failed to update Blog" });
     }
 });
-
-
+router.delete('/:blogId', authenticateAdminJwt, async (req,res)=>{
+    try{
+        const blogId = req.params.blogId;
+        const deleteBlog = await Post.findByIdAndDelete(blogId);
+        if (!deleteBlog) {
+            return res.status(404).json({ message: 'Blog not found' });
+          }
+          res.status(200).json({ message: 'Blog not found'});
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Error deleting blog', error: error.message });
+      }
+    
+})
 module.exports = router;

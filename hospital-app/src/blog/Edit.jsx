@@ -1,15 +1,14 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 import Card from '@mui/material/Card';
-import { useParams } from "react-router-dom";
 import { Typography } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Appbar from "../Appbar";
+import './edit.css';
 function Edit({ userType, userName, setUserName }) {
   const [content, setContent] = useState(null);
-
   const { blogId } = useParams();
 
   useEffect(() => {
@@ -33,92 +32,97 @@ function Edit({ userType, userName, setUserName }) {
   return (
     <div>
       <div>
-        {/* Conditionally render Appbar based on userType */}
         {userType === "admin" || userType === "user" ? (
           <Appbar userName={userName} setUserName={setUserName} />
         ) : null}
       </div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <Card style={{ border: "2px solid black", margin: 10, width: 300 }}>
-          <Typography variant="h4">Blog</Typography>
-          
-          <Typography variant="h6"> {content.title}</Typography>
-          <Typography variant="p"> {content.content}</Typography>
-
+      <div className="edit-container">
+        <Card className="blog-card">
+          <Typography variant="h4">Current Blog Post</Typography>
+          <Typography variant="h6" className="blog-title">{content.title}</Typography>
+          <Typography variant="body1" className="blog-content">{content.content}</Typography>
         </Card>
-        <div>
-          {/* inside the bracket it's the state */}
-          <UpdateCard content={content} />
-        </div>
+        <UpdateCard content={content} />
       </div>
-      </div>
-
-      );
+    </div>
+  );
 }
 
+function UpdateCard({ content }) {
+  const { blogId } = useParams();
+  const navigate = useNavigate();
 
-
-
-      // update card
-
-      function UpdateCard({content, onUpdate}) {
-  const {blogId} = useParams();
-
-      const [updatedBlog, setUpdatedBlog] = useState({
-       title:content.title,
-       content: content.content
+  const [updatedBlog, setUpdatedBlog] = useState({
+    title: content.title,
+    content: content.content
   });
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setUpdatedBlog((prevBlog) => ({
-        ...prevBlog,
-        [name]: value,
+      ...prevBlog,
+      [name]: value,
     }));
   };
 
   const handleSubmit = () => {
-        axios.put(`http://localhost:3000/blog/edit/${blogId}`, updatedBlog, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-
-          .then((res) => {
-            onUpdate(res.data.post);
-            alert("Blog updated successfully!");
-          })
-
-          .catch((error) => {
-            console.error("Error updating doctor:", error);
-          });
+    axios.put(`http://localhost:3000/blog/edit/${blogId}`, updatedBlog, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+      .then(() => {
+        alert("Blog updated successfully!");
+        navigate('/blogs');  // Redirect to blog list after update
+      })
+      .catch((error) => {
+        console.error("Error updating blog:", error);
+        alert("Failed to update blog. Please try again.");
+      });
   };
 
-      return (
-      <Card style={{
-        border: "2px solid black",
-        margin: 10,
-        width: 300
-      }}>
-        <TextField
-          name="title"
-          label="Title"
-          value={updatedBlog.title}
-          onChange={handleChange}
-        />
-        <TextField
-          name="degree"
-          label="Degree"
-          value={updatedBlog.content}
-          onChange={handleChange}
-        />
-       
-        <Button onClick={handleSubmit}>Update</Button>
-      </Card>
-      );
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this blog post?")) {
+      try {
+        await axios.delete(`http://localhost:3000/blog/${blogId}`, {
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        });
+        alert('Post deleted successfully');
+        navigate('/blogs');  // Redirect to blog list after deletion
+      } catch (error) {
+        console.error('Error deleting blog:', error);
+        alert("Failed to delete blog. Please try again.");
+      }
+    }
+  };
+
+  return (
+    <Card className="edit-form">
+      <Typography variant="h4">Edit Blog Post</Typography>
+      <TextField
+        name="title"
+        label="Title"
+        value={updatedBlog.title}
+        onChange={handleChange}
+        className="form-field"
+      />
+      <TextField
+        name="content"
+        label="Content"
+        value={updatedBlog.content}
+        onChange={handleChange}
+        multiline
+        rows={4}
+        className="form-field"
+      />
+      <div className="button-group">
+        <Button onClick={handleSubmit} className="update-button">Update</Button>
+        <Button onClick={handleDelete} className="delete-button">Delete Blog</Button>
+      </div>
+    </Card>
+  );
 }
 
-
-
-
-      export default Edit;
+export default Edit;

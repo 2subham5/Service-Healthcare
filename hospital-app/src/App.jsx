@@ -28,6 +28,7 @@ import UDoctor from './users/UDoctor';
 import Compose from './blog/Compose';
 import Blogs from './blog/Blogs';
 import Edit from './blog/Edit';
+import FullBlog from './blog/FullBlog';
 import './App.css'
 
 
@@ -123,9 +124,10 @@ function App() {
           <Route path="/uhospital/:hospitalId/doctors" element={<UDoctors  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
           <Route path="/:userId/addPatient" element={<AddPatients  userType={userType} userName={userName} setUserName={setUserName}/>} /> 
 {/* Blog */}
-<Route path="/blog/compose" element={<Compose />} />
-<Route path="/blog/posts" element={<Blogs />} />
-<Route path="/blog/edit/:blogId" element={<Edit />} />
+<Route path="/blog/compose" element={<Compose userType={userType} userName={userName} setUserName={setUserName}/>} />
+<Route path="/blog/posts" element={<Blogs userType={userType} userName={userName} setUserName={setUserName}/>} />
+<Route path="/blog/edit/:blogId" element={<Edit userType={userType} userName={userName} setUserName={setUserName}/>} />
+<Route path="/blog/:blogId" element={<FullBlog userType={userType} userName={userName} setUserName={setUserName}/>} />
         </Routes>
       </Router>
 

@@ -1,0 +1,56 @@
+.edit-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.blog-card {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+.blog-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.blog-content {
+    color: #666;
+    line-height: 1.6;
+}
+
+.edit-form {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.form-field {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.update-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.update-button:hover, .delete-button:hover {
+    opacity: 0.9;
+}
