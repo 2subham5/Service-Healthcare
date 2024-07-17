@@ -1,0 +1,51 @@
+/* Doctors.css */
+.doctors-container {
+    padding: 20px;
+  }
+  
+  .doctors-title {
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+  }
+  
+  .doctors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  
+  .doctor-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .doctor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+  
+  .doctor-card-content {
+    flex-grow: 1;
+  }
+  
+  .doctor-name {
+    color: #34495e;
+    font-weight: 600;
+  }
+  
+  .doctor-degree {
+    color: #7f8c8d;
+    margin-bottom: 16px;
+  }
+  
+  .doctor-card-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: #f8f9fa;
+  }

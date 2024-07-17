@@ -1,113 +1,147 @@
-import { useEffect, useState } from "react";
-import Card from '@mui/material/Card';
-import { Button, Typography } from "@mui/material";
+
+
+import React, { useEffect, useState } from "react";
+import { 
+  Card, CardContent, CardActions, Button, Typography, 
+  Container, Grid, List, ListItem, ListItemText, Divider,
+  CardHeader, Avatar
+} from "@mui/material";
+import { LocalHospital, School } from "@mui/icons-material";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Doctor from "./Doctor";
 import Appbar from "./Appbar";
+import "./Hospitals.css";
+
 function Hospitals({ userType, userName, setUserName }) {
+  const [hospitals, setHospitals] = useState([]);
 
+  useEffect(() => {
+    axios.get("http://localhost:3000/admin/hospitals", {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+    }).then(res => {
+      setHospitals(res.data);
+    });
+  }, []);
 
-    const [courses, setCourses] = useState([]);
-    useEffect(() => {
-
-        axios.get("http://localhost:3000/admin/hospitals", {
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        }).then(res => {
-            setCourses(res.data);
-        })
-    }, []);
-
-    return <div >
-        <div>
-            {/* Conditionally render Appbar based on userType */}
-            {userType === "admin" || userType === "user" ? (
-                <Appbar userName={userName} setUserName={setUserName} />
-            ) : null}
-        </div>
-        <div style={{ display: "flex" }}>
-        HOSPITALS
-        {/* courses is an object so need to stringify */}
-
-        {courses.map((course) => {
-            // passing course state in variable course
-            return <Course course={course} />
-        })}
-        </div>
+  return (
+    <div>
+      {userType === "admin" || userType === "user" ? (
+        <Appbar userName={userName} setUserName={setUserName} />
+      ) : null}
+      <Container className="hospitals-container">
+        <Typography variant="h3" className="hospitals-title">
+          Our Hospitals
+        </Typography>
+        <Grid container spacing={3} className="hospitals-grid">
+          {hospitals.map((hospital) => (
+            <Grid item xs={12} sm={6} md={4} key={hospital._id}>
+              <Hospital hospital={hospital} />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
     </div>
+  );
 }
 
-export function Course(props) {
-    const navigate = useNavigate();
-    const { hospitalId } = useParams();
-    const handleViewDoctors = () => {
-        navigate("/hospital/" + props.course._id + "/doctors"); // Navigate to Doctors component with hospital ID
-    };
-    return <Card style={{
-        border: "2px solid black",
-        margin: 10,
-        width: 300
-    }}>
-        {/* title description all these from backend */}
-        <Typography textAlign={"centre"} variant="h4">{props.course.name}</Typography>
-        <Typography textAlign={"centre"} variant="h4">{props.course.address}</Typography>
-        {/* <Typography textAlign={"centre"} variant="h4">{props.course.purchased[0]}</Typography> */}
-        {/* { {props.course.purchased.map((doctorId)=>{ */}
-        {/* <DoctorDetails doctorId={props.course.purchased[0]} /> */}
-        {/* })} } */}
-        {/* shows list of doctors under a particular hospital */}
-        {props.course.purchased.map((doctorId) => (
+function Hospital({ hospital }) {
+  const navigate = useNavigate();
+
+  const handleViewDoctors = () => {
+    navigate("/hospital/" + hospital._id + "/doctors");
+  };
+
+  return (
+    <Card className="hospital-card">
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: '#008080' }}>
+            <LocalHospital />
+          </Avatar>
+        }
+        title={
+          <Typography variant="h6" className="hospital-name">
+            {hospital.name}
+          </Typography>
+        }
+        subheader={
+          <Typography variant="body2" className="hospital-address">
+            {hospital.address}
+          </Typography>
+        }
+      />
+      <CardContent className="hospital-card-content">
+        <Typography variant="subtitle1" gutterBottom>
+          Our Doctors:
+        </Typography>
+        <List className="doctor-list">
+          {hospital.purchased.map((doctorId) => (
             <DoctorDetails key={doctorId} doctorId={doctorId} />
-        ))}
-        <div>
-            <Button onClick={() => {
-                // _id is the convention used for id's
-                navigate("/hospital/" + props.course._id);
-            }}>
-                Edit
-            </Button>
-        </div>
-        <div>
-            <Button onClick={handleViewDoctors}>View Doctors</Button> {/* Button to view doctors */}
-
-        </div>
+          ))}
+        </List>
+      </CardContent>
+      <Divider />
+      <CardActions className="hospital-card-actions">
+        <Button 
+          size="small" 
+          variant="outlined" 
+          style={{color:'#008080'}}
+          onClick={() => navigate("/hospital/" + hospital._id)}
+        >
+          Edit
+        </Button>
+        <Button className="hospital-buttons"
+          size="small" 
+          variant="contained" 
+          onClick={handleViewDoctors}
+          // color="primary"
+          style={{ backgroundColor: '#008080', color: '#ffffff' }}
+        >
+          View All Doctors
+        </Button>
+      </CardActions>
     </Card>
+  );
 }
+
 function DoctorDetails({ doctorId }) {
-    const [doctor, setDoctor] = useState(null);
-    console.log("doctorDetails")
-    useEffect(() => {
-        axios.get(`http://localhost:3000/admin/doctor/${doctorId}`, {
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        }).then(res => {
-            console.log("Doctor details received:", res.data);
-            setDoctor(res.data.doctor);
-        }).catch(error => {
-            console.error(`Error fetching doctor ${doctorId} details:`, error);
-        });
-    }, [doctorId]);
+  const [doctor, setDoctor] = useState(null);
 
-    if (!doctor) {
-        return null; // Render nothing until doctor details are fetched
-    }
+  useEffect(() => {
+    axios.get(`http://localhost:3000/admin/doctor/${doctorId}`, {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+    }).then(res => {
+      setDoctor(res.data.doctor);
+    }).catch(error => {
+      console.error(`Error fetching doctor ${doctorId} details:`, error);
+    });
+  }, [doctorId]);
 
-    return (
-        // JSON.stringify(doctor.doctorName)
-        <div>
+  if (!doctor) {
+    return null;
+  }
 
-            <div>
-                <Typography>{doctor.doctorName}</Typography>
-                <Typography>{doctor.degree}</Typography>
-                {/* Render other details of the doctor */}
-            </div>
-        </div>
-
-    );
+  return (
+    <ListItem className="doctor-item">
+      <ListItemText 
+        primary={
+          <Typography variant="body1" className="doctor-name">
+            {doctor.doctorName}
+          </Typography>
+        }
+        secondary={
+          <Typography variant="body2" className="doctor-degree">
+            <School fontSize="small" style={{ marginRight: 8, verticalAlign: 'middle' }} />
+            {doctor.degree}
+          </Typography>
+        }
+      />
+    </ListItem>
+  );
 }
 
 export default Hospitals;

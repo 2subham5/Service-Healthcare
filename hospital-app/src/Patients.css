@@ -1,0 +1,55 @@
+/* Patients.css */
+.patients-container {
+    padding: 20px;
+  }
+  
+  .patients-title {
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+  }
+  
+  .patients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  
+  .patient-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .patient-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+  
+  .patient-card-content {
+    flex-grow: 1;
+  }
+  
+  .patient-name {
+    color: #34495e;
+    font-weight: 600;
+  }
+  
+  .patient-condition {
+    color: #7f8c8d;
+    margin-bottom: 8px;
+  }
+  
+  .patient-age {
+    color: #7f8c8d;
+  }
+  
+  .patient-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    background-color: #f8f9fa;
+  }

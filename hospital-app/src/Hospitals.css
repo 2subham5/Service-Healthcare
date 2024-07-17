@@ -1,0 +1,97 @@
+
+
+.hospitals-container {
+  padding: 20px;
+  /* background-color: #f0f8f8; */
+}
+
+.hospitals-title {
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #008080; /* Teal color for the main title */
+  text-align: center;
+}
+
+.hospitals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.hospital-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 128, 128, 0.1);
+  background-color: #ffffff;
+}
+
+.hospital-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 128, 128, 0.15);
+}
+
+.hospital-card-content {
+  flex-grow: 1;
+}
+
+.hospital-name {
+  color: #008080; /* Teal color for hospital name */
+  font-weight: 600;
+}
+
+.hospital-address {
+  color: #408080;
+  margin-bottom: 16px;
+}
+
+.hospital-card-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  /* background-color: #e0f0f0; */
+}
+
+.doctor-list {
+  margin-top: 16px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.doctor-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #b3d9d9;
+}
+
+.doctor-item:last-child {
+  border-bottom: none;
+}
+
+.doctor-name {
+  font-weight: 500;
+  color: #008080; /* Teal color for doctor names */
+}
+
+.doctor-degree {
+  color: #4d9999;
+  font-size: 0.9em;
+}
+
+/* Styles for buttons */
+.hospital-buttons,
+.MuiButton-contained {
+  background-color: #008080 !important; /* Teal background for buttons */
+  color: #ffffff !important; /* White text for buttons */
+}
+
+.hospital-buttons:hover,
+.MuiButton-contained:hover {
+  background-color: #006666 !important; /* Darker teal on hover */
+}
+
+/* Additional styles for other headings */
+.MuiTypography-h6,
+.MuiTypography-subtitle1 {
+  color: #008080 !important; /* Teal color for headings */
+}

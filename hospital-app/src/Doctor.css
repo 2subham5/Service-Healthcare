@@ -1,0 +1,79 @@
+.doctor-page {
+    background-color: #f0f4f8;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .doctor-content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .doctor-card, .update-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    transition: transform 0.3s ease;
+  }
+  
+  .doctor-card:hover, .update-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-title {
+    color: #2c3e50;
+    margin-bottom: 15px !important;
+    text-align: center;
+  }
+  
+  .doctor-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .doctor-card Typography {
+    margin-bottom: 8px !important;
+  }
+  
+  .input-field {
+    margin-bottom: 15px !important;
+    width: 100%;
+  }
+  
+  .update-button {
+    background-color: #3498db !important;
+    color: white !important;
+    width: 100%;
+    margin-top: 10px !important;
+    transition: background-color 0.3s ease !important;
+  }
+  
+  .update-button:hover {
+    background-color: #2980b9 !important;
+  }
+  
+  .loading {
+    text-align: center;
+    margin-top: 50px;
+    color: #3498db;
+  }
+  
+  @media (max-width: 768px) {
+    .doctor-content {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .doctor-card, .update-card {
+      width: 90%;
+      max-width: 400px;
+    }
+  }
