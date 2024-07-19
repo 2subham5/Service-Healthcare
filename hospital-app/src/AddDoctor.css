@@ -31,7 +31,7 @@
 }
 
 .submit-button {
-    background-color: #3498db !important;
+    background-color: #008080 !important;
     color: white !important;
     font-weight: bold !important;
     padding: 12px 0 !important;
@@ -40,7 +40,7 @@
 }
 
 .submit-button:hover {
-    background-color: #2980b9 !important;
+    background-color: #006666 !important;
 }
 
 /* Responsive adjustments */

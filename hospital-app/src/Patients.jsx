@@ -126,7 +126,7 @@ function Patient({ patient }) {
     <Card className="patient-card">
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: '#3498db' }}>
+          <Avatar sx={{ bgcolor: '#008080' }}>
             <Person />
           </Avatar>
         }
